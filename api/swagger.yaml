@@ -1,0 +1,105 @@
+---
+swagger: "2.0"
+info:
+  description: "KYC NFT REST API implemented using flask and web3.js"
+  version: "1.0.0"
+  title: "eth_getProof implementation"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "soufiane@nethermind.io"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:8080"
+basePath: "/"
+schemes:
+  - "http"
+paths:
+  /mint:
+    post:
+      tags:
+        - "mint new NFT"
+      summary: "Mint new NFT to customer"
+      description: ""
+      operationId: "mint"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "wallet"
+          in: "query"
+          description: "customer wallet address"
+          required: true
+          type: "string"
+        - name: "firstName"
+          in: "query"
+          description: "customer's first name"
+          required: true
+          type: "string"
+        - name: "lastName"
+          in: "query"
+          description: "customer's last name"
+          required: true
+          type: "string"
+        - name: "ID"
+          in: "query"
+          description: "passport ID or national identity card"
+          required: true
+          type: "string"
+        - name: "PIN"
+          in: "query"
+          description: "customer PIN code"
+          required: true
+          type: "string"
+        - name: "ADMIN_PRIVATE_KEY"
+          in: "query"
+          description: "KYC issuer private key"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "NFT minted successfully to the customer"
+        "400":
+          description: "Something went wrong"
+      x-swagger-router-controller: "MintNewNFT"
+  /verifyCustomer:
+    get:
+      tags:
+        - "verify customer"
+      summary: "Check if user was issued an NFT from KYC provider"
+      description: ""
+      operationId: "verify"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "firstName"
+          in: "query"
+          description: "customer's first name"
+          required: true
+          type: "string"
+        - name: "lastName"
+          in: "query"
+          description: "customer's last name"
+          required: true
+          type: "string"
+        - name: "ID"
+          in: "query"
+          description: "passport ID or national identity card"
+          required: true
+          type: "string"
+        - name: "PIN"
+          in: "query"
+          description: "customer PIN code"
+          required: true
+          type: "string"
+      responses:
+        "200":
+          description: "NFT minted successfully to the customer"
+          schema:
+            type: "object"
+            properties:
+              verified:
+                type: "string"
+                format: "string"
+        "400":
+          description: "Something went wrong"
+      x-swagger-router-controller: "VerifyCustomer"

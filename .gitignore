@@ -1,0 +1,7 @@
+node_modules
+
+#NPM lock file
+package-lock.json
+
+#Environment variables file
+.env
