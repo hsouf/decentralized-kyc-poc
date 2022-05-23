@@ -1,5 +1,7 @@
 "use strict";
 
+const { getAdminWallet, getNFTContract } = require("../helpers/web3");
+
 /**
  * Mint new NFT to user
  *
@@ -20,7 +22,8 @@ exports.mint = function (
   pIN,
   aDMIN_PRIVATE_KEY
 ) {
-  console.log(wallet);
+  const admin = getAdminWallet(aDMIN_PRIVATE_KEY);
+  const nftContract = getNFTContract(admin);
   return new Promise(function (resolve, reject) {
     resolve();
   });
