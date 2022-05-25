@@ -16,9 +16,11 @@ contract KYC is IKYC, ERC721Enumerable, Ownable {
     constructor() ERC721("OPTIMIZE NFT KYC", "NFTKYC") {}
 
     function mint(bytes calldata _user) public onlyOwner {
-        (address wallet, uint256 issueDate, string memory signature) = abi
-            .decode(_user, (address, uint256, string));
-        USER memory newUser = USER(wallet, issueDate, signature);
+        (address wallet, string memory signature) = abi.decode(
+            _user,
+            (address, string)
+        );
+        USER memory newUser = USER(wallet, block.timestamp, signature);
         uint256 currentSupply = totalSupply();
         Users[currentSupply] = newUser;
 

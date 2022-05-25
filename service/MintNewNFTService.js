@@ -1,6 +1,7 @@
 "use strict";
 
-const { getAdminWallet, getNFTContract } = require("../helpers/web3");
+const ethers = require("ethers");
+const { getSignedContract } = require("../helpers/web3");
 
 /**
  * Mint new NFT to user
@@ -14,7 +15,7 @@ const { getAdminWallet, getNFTContract } = require("../helpers/web3");
  * aDMIN_PRIVATE_KEY String KYC issuer private key
  * no response value expected for this operation
  **/
-exports.mint = function (
+exports.mint = async function (
   wallet,
   firstName,
   lastName,
@@ -22,9 +23,26 @@ exports.mint = function (
   pIN,
   aDMIN_PRIVATE_KEY
 ) {
-  const admin = getAdminWallet(aDMIN_PRIVATE_KEY);
-  const nftContract = getNFTContract(admin);
-  return new Promise(function (resolve, reject) {
-    resolve();
-  });
+  try {
+    let contract = getSignedContract(aDMIN_PRIVATE_KEY);
+    const abiCoder = new ethers.utils.AbiCoder();
+    let encodedUserData = abiCoder.encode(
+      ["address", "string"],
+      [
+        wallet,
+        ethers.utils.keccak256(
+          ethers.utils.toUtf8Bytes(firstName + lastName + iD + pIN)
+        ),
+      ]
+    );
+
+    const tx = await contract.mint(encodedUserData);
+    const receipt = await tx.wait();
+
+    /* return new Promise(function (resolve, reject) {
+      resolve(receipt.status);
+    }); */
+  } catch (e) {
+    console.log(e);
+  }
 };

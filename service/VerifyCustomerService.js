@@ -1,5 +1,9 @@
 "use strict";
 
+const ethers = require("ethers");
+const contract = require("../helpers/ABI.js");
+require("dotenv").config();
+
 /**
  * Check if user was issued an NFT from KYC provider
  *
@@ -10,8 +14,28 @@
  * pIN String customer PIN code
  * returns Object
  **/
-exports.verify = function (firstName, lastName, iD, pIN) {
-  return new Promise(function (resolve) {
-    resolve({ valid: "false" });
-  });
+exports.verify = async function (firstName, lastName, iD, pIN) {
+  try {
+    let provider = new ethers.providers.JsonRpcProvider(
+      process.env.RPC_PROVIDER
+    );
+    const nft = new ethers.Contract(
+      process.env.NFT_CONTRACT,
+      contract.ABI,
+      provider
+    );
+    const isValid = await nft.verifySignature(
+      "0",
+      ethers.utils.keccak256(
+        ethers.utils.toUtf8Bytes(firstName + lastName + iD + pIN)
+      )
+    );
+    return new Promise(function (resolve) {
+      resolve({ valid: isValid });
+    });
+  } catch (e) {
+    return new Promise(function (resolve) {
+      resolve({ message: "looks like something went wrong, please try again" });
+    });
+  }
 };
