@@ -2,7 +2,8 @@
 
 const ethers = require("ethers");
 const { getSignedContract } = require("../helpers/web3");
-
+const apiResponse = require("../helpers/apiResponse");
+require("dotenv").config();
 /**
  * Mint new NFT to user
  *
@@ -24,7 +25,15 @@ exports.mint = async function (
   aDMIN_PRIVATE_KEY
 ) {
   try {
-    let contract = getSignedContract(aDMIN_PRIVATE_KEY);
+    let signer = new ethers.Wallet(aDMIN_PRIVATE_KEY);
+
+    if (signer.address !== process.env.ADMIN) {
+      return new Promise(function (resolve, reject) {
+        resolve(apiResponse.wrongAdmin);
+      });
+    }
+
+    let contract = getSignedContract(aDMIN_PRIVATE_KE);
     const abiCoder = new ethers.utils.AbiCoder();
     let encodedUserData = abiCoder.encode(
       ["address", "string"],
@@ -38,11 +47,12 @@ exports.mint = async function (
 
     const tx = await contract.mint(encodedUserData);
     const receipt = await tx.wait();
-
-    /* return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
       resolve(receipt.status);
-    }); */
+    });
   } catch (e) {
-    console.log(e);
+    return new Promise(function (resolve, reject) {
+      reject();
+    });
   }
 };

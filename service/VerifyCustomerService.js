@@ -14,7 +14,7 @@ require("dotenv").config();
  * pIN String customer PIN code
  * returns Object
  **/
-exports.verify = async function (firstName, lastName, iD, pIN) {
+exports.verify = async function (firstName, lastName, iD, pIN, tokenId) {
   try {
     let provider = new ethers.providers.JsonRpcProvider(
       process.env.RPC_PROVIDER
@@ -25,7 +25,7 @@ exports.verify = async function (firstName, lastName, iD, pIN) {
       provider
     );
     const isValid = await nft.verifySignature(
-      "0",
+      tokenId,
       ethers.utils.keccak256(
         ethers.utils.toUtf8Bytes(firstName + lastName + iD + pIN)
       )
@@ -34,8 +34,8 @@ exports.verify = async function (firstName, lastName, iD, pIN) {
       resolve({ valid: isValid });
     });
   } catch (e) {
-    return new Promise(function (resolve) {
-      resolve({ message: "looks like something went wrong, please try again" });
+    return new Promise(function (reject) {
+      reject();
     });
   }
 };

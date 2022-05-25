@@ -91,6 +91,11 @@ paths:
           description: "customer PIN code"
           required: true
           type: "string"
+        - name: "tokenId"
+          in: "query"
+          description: "ID of the NFT"
+          required: true
+          type: "string"
       responses:
         "200":
           description: "NFT minted successfully to the customer"

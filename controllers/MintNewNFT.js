@@ -2,6 +2,7 @@
 
 var utils = require("../utils/writer.js");
 var MintNewNFT = require("../service/MintNewNFTService");
+const apiResponse = require("../helpers/apiResponse");
 
 module.exports.mint = function mint(req, res, next) {
   var wallet = req.swagger.params["wallet"].value;
@@ -12,9 +13,13 @@ module.exports.mint = function mint(req, res, next) {
   var aDMIN_PRIVATE_KEY = req.swagger.params["ADMIN_PRIVATE_KEY"].value;
   MintNewNFT.mint(wallet, firstName, lastName, iD, pIN, aDMIN_PRIVATE_KEY)
     .then(function (response) {
-      utils.writeJson(res, response);
+      if (response == 1) {
+        utils.writeJson(res, apiResponse.mintSuccess, 200);
+      } else {
+        utils.writeJson(res, apiResponse.transactionFailed, 400);
+      }
     })
-    .catch(function (response) {
-      utils.writeJson(res, response);
+    .catch(function () {
+      utils.writeJson(res, apiResponse.error, 500);
     });
 };
