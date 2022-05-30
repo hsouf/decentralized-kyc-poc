@@ -10,12 +10,20 @@ contract KYC is IKYC, ERC721Enumerable, Ownable {
     using Strings for uint256;
     string public baseURI;
     string public issuer = "OPT1M1ZE"; //or whatever the name of the KYC platform is...
-
+    mapping(address => Issuer) public Issuers;
     mapping(uint256 => USER) public Users;
+
+    /**
+     * @dev Only allowed issuers
+     **/
+    modifier onlyIssuer(address _issuer) {
+        require(Issuers[_issuer].isAllowed, "NOT_ALLOWED");
+        _;
+    }
 
     constructor() ERC721("OPTIMIZE NFT KYC", "NFTKYC") {}
 
-    function mint(bytes calldata _user) public onlyOwner {
+    function mint(bytes calldata _user) public onlyIssuer(_msgSender()) {
         (address wallet, string memory signature) = abi.decode(
             _user,
             (address, string)
@@ -25,6 +33,15 @@ contract KYC is IKYC, ERC721Enumerable, Ownable {
         Users[currentSupply] = newUser;
 
         _safeMint(wallet, currentSupply);
+    }
+
+    function whitelistNewIssuer(address _wallet, string memory _name)
+        public
+        onlyOwner
+    {
+        require(Issuers[_wallet].wallet == address(0), "ISSUER ALREADY EXIST");
+        Issuer memory newIssuer = Issuer(_name, _wallet, block.timestamp, true);
+        Issuers[_wallet] = newIssuer;
     }
 
     function verifySignature(uint256 _tokenId, string memory _signature)
@@ -55,11 +72,11 @@ contract KYC is IKYC, ERC721Enumerable, Ownable {
                     "data:application/json,",
                     abi.encodePacked(
                         '{"wallet":"',
-                        user.wallet,
+                        Strings.toHexString(uint160(user.wallet), 20),
                         '","description":"This KYC NFT proves that the wallet holder has successfully completed the KYC process fulfilled by OPT1M1ZE","user_signature":"',
                         user.signature,
                         '","issue_date":"',
-                        user.issueDate,
+                        "kk",
                         '","image":"',
                         string(abi.encodePacked(URI, (_tokenId).toString())),
                         '","issuer":"',

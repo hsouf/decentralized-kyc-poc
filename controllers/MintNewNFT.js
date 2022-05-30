@@ -19,7 +19,7 @@ module.exports.mint = function mint(req, res, next) {
         utils.writeJson(res, apiResponse.transactionFailed, 400);
       }
     })
-    .catch(function () {
-      utils.writeJson(res, apiResponse.error, 500);
+    .catch(function (error) {
+      utils.writeJson(res, { status: "failed", message: error.message }, 500);
     });
 };

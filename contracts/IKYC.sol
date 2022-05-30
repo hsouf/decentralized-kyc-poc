@@ -7,4 +7,11 @@ interface IKYC {
         uint256 issueDate;
         string signature;
     }
+
+    struct Issuer {
+        string name;
+        address wallet;
+        uint256 joinDate;
+        bool isAllowed;
+    }
 }

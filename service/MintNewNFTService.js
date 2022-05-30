@@ -28,13 +28,23 @@ exports.mint = async function (
     let signer = new ethers.Wallet(aDMIN_PRIVATE_KEY);
 
     if (signer.address !== process.env.ADMIN) {
-      return new Promise(function (resolve, reject) {
+      return new Promise(function (resolve) {
         resolve(apiResponse.wrongAdmin);
       });
     }
 
-    let contract = getSignedContract(aDMIN_PRIVATE_KE);
+    let contract = getSignedContract(aDMIN_PRIVATE_KEY);
     const abiCoder = new ethers.utils.AbiCoder();
+    console.log(
+      ethers.utils.keccak256(
+        ethers.utils.toUtf8Bytes(firstName + lastName + iD + pIN)
+      )
+    );
+    console.log(
+      typeof ethers.utils.keccak256(
+        ethers.utils.toUtf8Bytes(firstName + lastName + iD + pIN)
+      )
+    );
     let encodedUserData = abiCoder.encode(
       ["address", "string"],
       [
@@ -45,6 +55,7 @@ exports.mint = async function (
       ]
     );
 
+    console.log(encodedUserData);
     const tx = await contract.mint(encodedUserData);
     const receipt = await tx.wait();
     return new Promise(function (resolve, reject) {
@@ -52,7 +63,8 @@ exports.mint = async function (
     });
   } catch (e) {
     return new Promise(function (resolve, reject) {
-      reject();
+      reject(new Error(e));
+      console.log(e);
     });
   }
 };
