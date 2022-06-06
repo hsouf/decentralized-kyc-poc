@@ -3,6 +3,7 @@
 var utils = require("../utils/writer.js");
 var VerifyCustomer = require("../service/VerifyCustomerService");
 const apiResponse = require("../helpers/apiResponse");
+
 module.exports.verify = function verify(req, res, next) {
   var firstName = req.swagger.params["firstName"].value;
   var lastName = req.swagger.params["lastName"].value;

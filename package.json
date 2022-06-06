@@ -13,6 +13,7 @@
   "license": "Unlicense",
   "private": true,
   "dependencies": {
+    "bee-queue": "^1.4.0",
     "connect": "^3.2.0",
     "dotenv": "^16.0.1",
     "ethers": "^5.6.7",

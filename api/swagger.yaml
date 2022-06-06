@@ -107,4 +107,26 @@ paths:
                 format: "string"
         "400":
           description: "Something went wrong"
+  /getTokenMetadata:
+    get:
+      tags:
+        - "verify customer"
+      summary: "Check if user was issued an NFT from KYC provider"
+      description: ""
+      operationId: "verifyNFT"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "ID"
+          in: "query"
+          description: "ID of the NFT"
+          required: true
+          type: "number"
+      responses:
+        "200":
+          description: "NFT Metadata exists"
+          schema:
+            type: "object"
+        "400":
+          description: "Couldn't find token metadata"
       x-swagger-router-controller: "VerifyCustomer"

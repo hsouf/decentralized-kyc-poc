@@ -1,8 +1,9 @@
-"use strict";
+/* "use strict";
 
 const ethers = require("ethers");
 const { getSignedContract } = require("../helpers/web3");
 const apiResponse = require("../helpers/apiResponse");
+const { addTransaction } = require("../mintQueue/job");
 require("dotenv").config();
 /**
  * Mint new NFT to user
@@ -24,8 +25,8 @@ exports.mint = async function (
   pIN,
   aDMIN_PRIVATE_KEY
 ) {
-  try {
-    let signer = new ethers.Wallet(aDMIN_PRIVATE_KEY);
+  /*  try {
+       let signer = new ethers.Wallet(aDMIN_PRIVATE_KEY);
 
     if (signer.address !== process.env.ADMIN) {
       return new Promise(function (resolve) {
@@ -46,13 +47,13 @@ exports.mint = async function (
     );
 
     const tx = await contract.mint(encodedUserData);
-    const receipt = await tx.wait();
-    return new Promise(function (resolve, reject) {
-      resolve(receipt.status);
+    const receipt = await tx.wait(); 
+    return new Promise(function (resolve) {
+      resolve(receipt.statuc);
     });
   } catch (e) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (reject) {
       reject(new Error(e));
     });
-  }
+  } */
 };
