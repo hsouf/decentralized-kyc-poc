@@ -819,8 +819,8 @@ devices' identification, decentralized Apps application models,
 on-chain/off-chain oracles, performance, and the design for
 decentralized score-based KYC.
 
-::: thebibliography
-90
+::: Bibliography
+
 
 <https://www.europarl.europa.eu/RegData/etudes/STUD/2019/634445/EPRS_STU(2019)634445_EN.pdf>
 
@@ -854,9 +854,8 @@ https://ethereum.org/en/wallets/)
 # Storing KYC documents on IPFS
 
 In order to achieve maximum decentralization when storing the KYC
-documents on IPFS. **I was very delighted to know that we will be
-adopting an open source solution for IPFS storage I've previously worked
-on during a previous internship**. The API allows anyone to push a file
+documents on IPFS, an open source solution for IPFS storage I've previously worked
+on during a previous internship could be adopted. The API allows anyone to push a file
 on IPFS and store its ahsh on a smart contract in the **Ethereum
 blockchain**. It's also worth mentioning here, that *the hashes of the
 files are not stored on a publicly known smart contract) since every
