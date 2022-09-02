@@ -1,3 +1,4 @@
+### Decentralized KYC NFT Solution (Proof of concept)
 
 ***Abstract***
 
@@ -42,7 +43,7 @@ Cryptography, privacy, data
 
 
 
-***Dedication***\
+***Dedication***
 
 
 I dedicate this work to all the free spirits who believe in the **web3**
@@ -52,7 +53,7 @@ change the balances of power. I simply do dedicate all the toil and
 sweat put into this work to everyone who believes the web should belong
 to everyone.
 
-**List of Acronyms**\
+**List of Acronyms**
 
 ::: acronym
 **CCPA** - California Consumer Privacy Act 
